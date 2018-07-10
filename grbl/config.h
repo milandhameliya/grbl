@@ -337,7 +337,11 @@
 // enable pin will output 5V for maximum RPM with 256 intermediate levels and 0V when disabled.
 // NOTE: IMPORTANT for Arduino Unos! When enabled, the Z-limit pin D11 and spindle enable pin D12 switch!
 // The hardware PWM output on pin D11 is required for variable spindle output voltages.
-#define VARIABLE_SPINDLE // Default enabled. Comment to disable.
+// #define VARIABLE_SPINDLE // Default enabled. Comment to disable.
+    //  2018.07.09 Mayur -- disabled variable speed for operating relay of spindle (No PWM)
+    //  2018.07.10 Tested OK after disabling variable sped
+    //             M3= Spindle ON; M5= Off
+    //             M8= Coolant ON; M9= Off
 
 // Used by variable spindle output only. This forces the PWM output to a minimum duty cycle when enabled.
 // The PWM pin will still read 0V when the spindle is disabled. Most users will not need this option, but
