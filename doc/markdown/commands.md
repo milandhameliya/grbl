@@ -230,6 +230,11 @@ Four realtime commands are type-able by users on a keyboard and shown in the `$`
   - An input pin is available to connect a button or switch.
 
 
+- `0x19` : Hard-Reset
+
+  - Performs hard-reset.
+
+
 - `?` : Status Report Query
 
   - Immediately generates and sends back runtime data with a status report.
