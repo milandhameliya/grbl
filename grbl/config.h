@@ -53,6 +53,10 @@
 #define CMD_STATUS_REPORT '?'
 #define CMD_CYCLE_START '~'
 #define CMD_FEED_HOLD '!'
+//  2018.07.12 Mayur -- Adding Hard reset functionality
+    // This change will also affect -- ISR(SERIAL_RX) -- new case in switch(data)
+    //  2018.07.12 Tested OK.
+#define CMD_HARD_RESET 0x19 //
 
 // NOTE: All override realtime commands must be in the extended ASCII character set, starting
 // at character value 128 (0x80) and up to 255 (0xFF). If the normal set of realtime commands,
