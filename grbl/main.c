@@ -35,17 +35,34 @@ volatile uint8_t sys_rt_exec_accessory_override; // Global realtime executor bit
   volatile uint8_t sys_rt_exec_debug;
 #endif
 
+// Hardreset in Progress
+//  2018.07.21 Mayur -- Adding Hard reset helper (in Progress)
+extern bool mayurHardResetInProgress;
+
 
 int main(void)
 {
+  // Hardreset in Progress
+  //  2018.07.21 Mayur -- Adding Hard reset helper (in Progress)
+  mayurHardResetInProgress = true;
+  cli(); // Disable interrupts
+
   // Initialize system upon power-up.
   serial_init();   // Setup serial baud rate and interrupts
   settings_init(); // Load Grbl settings from EEPROM
   stepper_init();  // Configure stepper pins and interrupt timers
   system_init();   // Configure pinout pins and pin-change interrupt
 
+  // Hardreset in Progress
+  //  2018.07.21 Mayur -- Adding Hard reset helper (in Progress)
+  //  This delay is added to let PI prepare for receive buffer.
+  //  It was observed, PI was missing reset response if sent without delay.
+  delay_ms(1000);
+
   memset(sys_position,0,sizeof(sys_position)); // Clear machine position.
   sei(); // Enable interrupts
+
+  mayurHardResetInProgress = false;
 
   // Initialize system state.
   #ifdef FORCE_INITIALIZATION_ALARM

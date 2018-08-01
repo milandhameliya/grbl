@@ -140,13 +140,23 @@ uint8_t serial_read()
 }
 
 
+// Hardreset in Progress
+//  2018.07.21 Mayur -- Adding Hard reset helper (in Progress)
+bool mayurHardResetInProgress = true;
+
+
 //Soft RESET (Equivalent to Hard Reset)
 //  2018.07.12 Mayur -- Adding Hard reset functionality
     // This change will also affect -- config.h --- added CMD_HARD_RESET macro.
     //  2018.07.12 Tested OK.
 // ----------------------
 // declare reset function at address 0
-void(* helimp_hard_reset) (void) = 0;
+//void(* helimp_hard_reset) (void) = 0;
+void helimp_hard_reset() {
+  mayurHardResetInProgress = true;
+  cli(); // Disable interrupts
+  asm volatile ("  jmp 0");
+}
 
 
 
@@ -154,6 +164,8 @@ ISR(SERIAL_RX)
 {
   uint8_t data = UDR0;
   uint8_t next_head;
+
+  if (mayurHardResetInProgress) return;
 
   // Pick off realtime command characters directly from the serial stream. These characters are
   // not passed into the main buffer, but these set system state flag bits for realtime execution.
